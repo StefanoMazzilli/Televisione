@@ -3,24 +3,7 @@ package org.generation.italy.model;
 import java.lang.reflect.Array;
 
 public class Televisore {
-	/*
-	 * i seguenti metodi:
-
-
-
-void accendi()  //cambia lo stato a true (acceso) e imposta il canale corrente a 1
-void spegni()
-void aumentaVolume(): incrementa (se possibile) il volume di 1
-void diminuisciVolume(): decrementa (se possibile) il volume di 1
-boolean cambiaCanale(int canale): //imposta (se possibile) il canale corrente. Se è stato possibile cambiare il canale restituisce true, altrimenti false
-String mostraCanale()  //restituisce la stringa "Stai guardando il canale <nomeCanale>"
-void visualizzaElencoCanali()   //mostra l'elenco dei canali
-ogni attributo è incapsulato (private)
-per ogni attributo generare un metodo getter
-generare un metodo setter per l'attributo modalitàHotel 
-generare un metodo toString() per visualizzare tutti gli attributi della classe (tranne l'elencoCanali)
- 
-	 */
+	
 	private String marca;
 	private String modello;
 	private int nrPollici;
@@ -33,12 +16,18 @@ generare un metodo toString() per visualizzare tutti gli attributi della classe 
 	public Televisore (String marca, String modello, int nrPollici) throws Exception {
 		if (!marca.isEmpty()) {
 			this.marca=marca;
+		} else {
+			throw new Exception("Marca non valida!");
 		}
 		if (!modello.isEmpty()) {
 			this.modello=modello;
+		} else {
+			throw new Exception("Modello non valido!");
 		}
 		if (nrPollici>0) {
 			this.nrPollici=nrPollici;
+		} else {
+			throw new Exception("Numero di pollici non valido! Inserire un numero positivo!");
 		}
 		
 		this.stato=false;
@@ -50,12 +39,18 @@ generare un metodo toString() per visualizzare tutti gli attributi della classe 
 	public Televisore (String marca, String modello, int nrPollici, boolean modalitaHotel) throws Exception {
 		if (!marca.isEmpty()) {
 			this.marca=marca;
+		} else {
+			throw new Exception("Marca non valida!");
 		}
 		if (!modello.isEmpty()) {
 			this.modello=modello;
+		} else {
+			throw new Exception("Modello non valido!");
 		}
 		if (nrPollici>0) {
 			this.nrPollici=nrPollici;
+		} else {
+			throw new Exception("Numero di pollici non valido! Inserire un numero positivo!");
 		}
 		this.stato=false;
 		this.canaleCorrente=elencoCanali[0];
@@ -63,22 +58,17 @@ generare un metodo toString() per visualizzare tutti gli attributi della classe 
 		this.volume=0;
 	}
 	
-	public void accendi () {
-		if (this.stato=false) {
+	public void accendiSpegni () {
+		if (this.stato==false) {
 			this.stato=true;
 			this.canaleCorrente=elencoCanali[0];
+			System.out.println("Accensione");
 		} else {
-			System.out.println("Televisione già accesa");
+			System.out.println("Spegnimento");
+			this.stato=false;
 		}
 	}
 	
-	public void spegni() {
-		if (this.stato=true) {
-			this.stato=false;
-		} else {
-			System.out.println("Televisione già spenta");
-		}
-	}
 	
 	public void aumentaVolume () {
 		int volumeMax;
@@ -88,7 +78,7 @@ generare un metodo toString() per visualizzare tutti gli attributi della classe 
 			volumeMax=10;
 		}
 		
-		if (this.stato=true) {
+		if (this.stato==true) {
 			if (this.volume>=volumeMax) {
 				System.out.println("Il volume è già al massimo");
 			} else {
@@ -99,7 +89,7 @@ generare un metodo toString() per visualizzare tutti gli attributi della classe 
 	}
 	
 	public void diminuisciVolume () {
-		if (this.stato=true) {
+		if (this.stato==true) {
 			if (this.volume==0) {
 				System.out.println("Il volume è già al minimo");
 			} else {
@@ -111,29 +101,37 @@ generare un metodo toString() per visualizzare tutti gli attributi della classe 
 	
 	public boolean cambiaCanale (String canale) {
 		boolean cambiato=false;
-		if (!this.canaleCorrente.equals(canale)) {
-			for (int i = 0; i<10; i++) {
-				if (this.elencoCanali[i].equals(canale)) {
-					this.canaleCorrente=canale;
-					cambiato=true;
+		if (this.stato==true) {
+			if (!this.canaleCorrente.equals(canale)) {
+				for (int i = 0; i<10; i++) {
+					if (this.elencoCanali[i].equals(canale)) {
+						this.canaleCorrente=canale;
+						cambiato=true;
+					}
 				}
+			} else {
+				System.out.println("Sei già su questo canale");
 			}
-		} else {
-			System.out.println("Sei già su questo canale");
 		}
-		
 		return cambiato;
 	}
 	
 	public String mostraCanale () {
-		String messaggio="Stai guardando il canale "+this.canaleCorrente;
+		String messaggio;
+		if (this.stato==true) {
+			messaggio="Stai guardando il canale "+this.canaleCorrente;
+		} else {
+			messaggio="";
+		}
 		return messaggio;
 	}
 	
 	public void visualizzaElencoCanali() {
-		System.out.println("Elenco canali:");
-		for (int j=0; j<10; j++) {
-			System.out.println("Canale "+ this.elencoCanali[j]);
+		if (this.stato==true) {
+			System.out.println("Elenco canali:");
+			for (int j=0; j<10; j++) {
+				System.out.println("Canale: "+ this.elencoCanali[j]);
+			}
 		}
 	}
 
