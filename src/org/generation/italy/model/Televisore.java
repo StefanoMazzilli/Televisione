@@ -1,6 +1,6 @@
 package org.generation.italy.model;
 
-import java.lang.reflect.Array;
+import java.util.Scanner;
 
 public class Televisore {
 	
@@ -10,7 +10,7 @@ public class Televisore {
 	private boolean stato;
 	private int volume;
 	private boolean modalitaHotel;
-	private String[] elencoCanali= {"Rai 1", "Rai 2", "Rai 3", "Rete 4", "Canale 5", "Italia 1", "La 7", "TV8", "Nove", "Canale 10"};
+	private String[] elencoCanali= {"Rai 1", "Rai 2", "Rai 3", "Rete 4", "Canale 5", "Italia 1", "La 7", "TV8", "Nove", "Canale 10", "--"};
 	private String canaleCorrente;
 	
 	public Televisore (String marca, String modello, int nrPollici) throws Exception {
@@ -31,7 +31,7 @@ public class Televisore {
 		}
 		
 		this.stato=false;
-		this.canaleCorrente=elencoCanali[0];
+		this.canaleCorrente=elencoCanali[10];
 		this.modalitaHotel=false;
 		this.volume=0;
 	}
@@ -53,7 +53,7 @@ public class Televisore {
 			throw new Exception("Numero di pollici non valido! Inserire un numero positivo!");
 		}
 		this.stato=false;
-		this.canaleCorrente=elencoCanali[0];
+		this.canaleCorrente=elencoCanali[10];
 		this.modalitaHotel=modalitaHotel;
 		this.volume=0;
 	}
@@ -65,6 +65,7 @@ public class Televisore {
 			System.out.println("Accensione");
 		} else {
 			System.out.println("Spegnimento");
+			this.canaleCorrente=elencoCanali[10];
 			this.stato=false;
 		}
 	}
@@ -85,6 +86,8 @@ public class Televisore {
 				this.volume++;
 				System.out.println("Volume: "+this.volume);
 			}
+		} else {
+			System.out.println("  --> SPENTO <--");
 		}
 	}
 	
@@ -96,12 +99,17 @@ public class Televisore {
 				this.volume--;
 				System.out.println("Volume: "+this.volume);
 			}
+		} else {
+			System.out.println("  --> SPENTO <--");
 		}
 	}
 	
-	public boolean cambiaCanale (String canale) {
+	public boolean cambiaCanale (Scanner sc) {
 		boolean cambiato=false;
+		String canale;
 		if (this.stato==true) {
+			System.out.println("Quale canale vuoi vedere?");
+			canale=sc.nextLine();
 			if (!this.canaleCorrente.equals(canale)) {
 				for (int i = 0; i<10; i++) {
 					if (this.elencoCanali[i].equals(canale)) {
@@ -112,6 +120,8 @@ public class Televisore {
 			} else {
 				System.out.println("Sei già su questo canale");
 			}
+		} else {
+			System.out.println("  --> SPENTO <--");
 		}
 		return cambiato;
 	}
@@ -121,7 +131,7 @@ public class Televisore {
 		if (this.stato==true) {
 			messaggio="Stai guardando il canale "+this.canaleCorrente;
 		} else {
-			messaggio="";
+			messaggio="  --> SPENTO <--";
 		}
 		return messaggio;
 	}
@@ -132,6 +142,8 @@ public class Televisore {
 			for (int j=0; j<10; j++) {
 				System.out.println("Canale: "+ this.elencoCanali[j]);
 			}
+		} else {
+			System.out.println("  --> SPENTO <--");
 		}
 	}
 
@@ -169,8 +181,8 @@ public class Televisore {
 
 	@Override
 	public String toString() {
-		return "Televisore [marca=" + marca + ", modello=" + modello + ", Numero pollici=" + nrPollici + ", acceso=" + stato
-				+ ", volume=" + volume + ", modalità hotel=" + modalitaHotel + ", canale corrente=" + canaleCorrente
+		return "TV\n[Marca = " + marca + " | Modello = " + modello + " | Numero pollici = " + nrPollici + " | \nStato = "+(stato?"Acceso":"Spento")
+				+ " | Volume = " + volume + " | Modalità = "+(modalitaHotel?"Hotel":"Normale") + " | Canale corrente = " + canaleCorrente
 				+ "]";
 	}
 	

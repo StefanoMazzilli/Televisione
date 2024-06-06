@@ -7,9 +7,12 @@ import org.generation.italy.model.Televisore;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		/* TODO :
+		 * 	- Aggiungere classe canali
+		 */
 		Scanner sc= new Scanner(System.in);
 		Televisore tv;
+		int nrPollici=0;
 		
 		System.out.println("Creazione televisione\nInserire i dati");
 		
@@ -17,12 +20,22 @@ public class Main {
 		String marca=sc.nextLine();
 		System.out.print("Inserire il modello: ");
 		String modello=sc.nextLine();
-		System.out.print("Inserire numero pollici: ");
-		int nrPollici=sc.nextInt();
-		sc.nextLine();
+		do {
+			try {
+				System.out.print("Inserire numero pollici: ");
+				nrPollici=Integer.parseInt(sc.nextLine());
+			} catch (Exception e) {
+				System.err.println("Attenzione! Inserimento non valido! Premere INVIO per riprovare.");
+				sc.nextLine();
+			}
+		} while (nrPollici==0);
 		System.out.println("La TV è dotata di modalità hotel?");
-		String risposta=sc.nextLine();
-		if (risposta.equals("si")) {
+		String risposta=sc.nextLine().toLowerCase();
+		while (!(risposta.equals("si"))&&!(risposta.equals("sì"))&&!(risposta.equals("no"))) {
+			System.out.println("Non ho capito, la TV è dotata di modalità hotel?");
+			risposta=sc.nextLine().toLowerCase();
+		}
+		if (risposta.equals("si")||risposta.equals("sì")) {
 			boolean modalitaHotel=true;
 			try {
 					
@@ -49,7 +62,7 @@ public class Main {
 		System.out.println("--- Controllo televisore ---");
 		do {
 			System.out.println("\n\n\n\nScegli l'operazione da eseguire:");
-			System.out.println(tv.toString());
+			System.out.println("\n"+tv.toString()+"\n");
 			System.out.println("1) On/Off\n2) Aumenta volume\n3) Diminuisci volume\n4) Cambia canale\n5) Mostra canale\n6) Visualizza elenco canali\n7) Esci");
 			scelta=sc.nextLine();
 			switch (scelta) {
@@ -66,9 +79,9 @@ public class Main {
 				break;
 			
 			case "4":
-				System.out.println("Quale canale vuoi vedere?");
-				String canale=sc.nextLine();
-				tv.cambiaCanale(canale);
+				if (tv.cambiaCanale(sc)) {
+					System.out.println("Canale cambiato a "+tv.getCanaleCorrente());
+				}
 				break;
 				
 			case "5":
