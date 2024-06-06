@@ -49,6 +49,7 @@ public class Main {
 		System.out.println("--- Controllo televisore ---");
 		do {
 			System.out.println("\n\n\n\nScegli l'operazione da eseguire:");
+			System.out.println(tv.toString());
 			System.out.println("1) On/Off\n2) Aumenta volume\n3) Diminuisci volume\n4) Cambia canale\n5) Mostra canale\n6) Visualizza elenco canali\n7) Esci");
 			scelta=sc.nextLine();
 			switch (scelta) {
